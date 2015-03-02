@@ -84,11 +84,22 @@ etw(){
     fi
     if [ "$1" = "db" ]; then
         if [ "$2" = "switch" ]; then
-            /Users/james.kieley/git/my-groovy-scripts/replace.groovy /Users/james.kieley/etw-web/src/main/resources/META-INF/properties/etw.properties $3
-            echo $3
+            local REPLACE_SCRIPT=/Users/james.kieley/git/my-groovy-scripts/replace.groovy 
+            local PROPERTIES_FILE=/Users/james.kieley/etw-web/src/main/resources/META-INF/properties/etw.properties 
+            $REPLACE_SCRIPT $PROPERTIES_FILE $3
+            echo "***** Switching Properties File DB ******"
+            echo -n "Changeing Properties file:" 
+            echo "$PROPERTIES_FILE"
+            echo "Prevous Db:"
+            sed -n 11p $PROPERTIES_FILE
+            echo "Current Db:"
+            sed -n 11p $PROPERTIES_FILE
         fi
         if [ "$2" = "pass" ]; then
             mysql -uroot -e "UPDATE $3.user_account SET PASSWORD = '\$2a\$10\$1QYpTwAUtwWYV5lRBvFPae9lyd8NhLlafLflpcmEZHfBSJQzkBWqa';"
+        fi
+        if [ "$2" = "reload" ]; then
+            reloaddb $3
         fi
     fi
 }
