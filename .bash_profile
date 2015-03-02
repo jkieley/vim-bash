@@ -22,6 +22,8 @@ alias sshconfig='vim ~/.ssh/config'
 alias snippet='cd /Users/james.kieley/Library/Application\ Support/Sublime\ Text\ 3/Packages/User'
 
 SQL_DUMP_LOCATION='/Users/james.kieley/etw-db/fromryan/cloud-internal.sql.gz'
+ETW_PROPERTIES_FILE=/Users/james.kieley/etw-web/src/main/resources/META-INF/properties/etw.properties
+
 
 alias pomv='sed -n 7p pom.xml | sed -e "s/<[^>]*>//g" | sed -e "s/-S.*//g" | trim | pbcopy'
 # This function has been written to pipe something to it, currently does work with straight invocation :/ 
@@ -83,6 +85,9 @@ etw(){
         cd ~/etw-web
     fi
     if [ "$1" = "db" ]; then
+        if [ "$2" = "which" ]; then
+            etw_which_db
+        fi
         if [ "$2" = "switch" ]; then
             etw_switch_db $3
         fi
@@ -97,17 +102,20 @@ etw(){
 
 etw_switch_db(){
     local REPLACE_SCRIPT=/Users/james.kieley/git/my-groovy-scripts/replace.groovy 
-    local PROPERTIES_FILE=/Users/james.kieley/etw-web/src/main/resources/META-INF/properties/etw.properties 
     
     echo "***** Switching Properties File DB ******"
     echo -n "Changeing Properties file:" 
-    echo "$PROPERTIES_FILE"
+    echo "$ETW_PROPERTIES_FILE"
     echo "Prevous Db:"
-    sed -n 11p $PROPERTIES_FILE
+    sed -n 11p $ETW_PROPERTIES_FILE
     
-    $REPLACE_SCRIPT $PROPERTIES_FILE $1
+    $REPLACE_SCRIPT $ETW_PROPERTIES_FILE $1
+    etw_which_db
+}
+
+etw_which_db(){
     echo "Current Db:"
-    sed -n 11p $PROPERTIES_FILE
+    sed -n 11p $ETW_PROPERTIES_FILE
 }
 
 #THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
