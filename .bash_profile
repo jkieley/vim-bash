@@ -30,6 +30,9 @@ trim(){
         echo -n $data | tr -d "\r" | tr -d "\n" | tr -d " "
     done
 }
+uuid(){
+    groovy -e "import static java.util.UUID.randomUUID; print randomUUID();" | pbcopy
+}
 
 reloaddb(){
     echo "***** Loading sql dump *****"
@@ -80,7 +83,6 @@ etw(){
         cd ~/etw-web
     fi
     if [ "$1" = "db" ]; then
-        echo "entering db"
         if [ "$2" = "switch" ]; then
             /Users/james.kieley/git/my-groovy-scripts/replace.groovy /Users/james.kieley/etw-web/src/main/resources/META-INF/properties/etw.properties $3
             echo $3
