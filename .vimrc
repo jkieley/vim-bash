@@ -63,3 +63,6 @@ set expandtab
 
 " Plugin 'bling/vim-airline' " status bar settings
 set laststatus=2 " keep the status bar always on
+
+" sytax highlighting
+au BufReadPost *.sublime-snippet set syntax=xml
