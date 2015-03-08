@@ -95,7 +95,7 @@ etw(){
             mysql -uroot -e "UPDATE $3.user_account SET PASSWORD = '\$2a\$10\$1QYpTwAUtwWYV5lRBvFPae9lyd8NhLlafLflpcmEZHfBSJQzkBWqa';"
         fi
         if [ "$2" = "reload" ]; then
-            reloaddb $3
+            drop_reload $3
         fi
     fi
 }
@@ -117,6 +117,31 @@ etw_which_db(){
     echo "Current Db:"
     sed -n 11p $ETW_PROPERTIES_FILE
 }
+# Mac OS X Lion introduced a new, iOS-like context menu when you press and hold a key
+# that enables you to choose a character from a menu of options. If you are on Lion
+# try it by pressing and holding down 'e' in any app that uses the default NSTextField
+# for input.
+#
+# It's a nice feature and continues the blending of Mac OS X and iOS features. However,
+# it's a nightmare to deal with in Sublime Text if you're running Vintage (Vim) mode,
+# as it means you cannot press and hold h/j/k/l to move through your file. You have
+# to repeatedly press the keys to navigate.
+ 
+# You can disable this feature for just Sublime Text by issuing the following command
+# in your terminal (*not* the Sublime Text console):
+ 
+defaults write com.sublimetext.3 ApplePressAndHoldEnabled -bool false
+ 
+# Note: replace com.sublimetext.3 with whichever version of Sublime Text you are running
+# eg. 'com.sublimetext.2'
+ 
+# Alternately, if you want this feature disabled globally, you can enter this:
+ 
+# defaults write -g ApplePressAndHoldEnabled -bool false
+ 
+# In either case you'll need to restart Sublime Text for the change to take place.
+ 
+# Happy coding!
 
 #THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
 [[ -s "/Users/james.kieley/.gvm/bin/gvm-init.sh" ]] && source "/Users/james.kieley/.gvm/bin/gvm-init.sh"
