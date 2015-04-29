@@ -12,20 +12,29 @@ alias gpo="git push origin"
 alias gb="git branch"
 alias gco="git checkout"
 alias gd="git diff"
+alias gcp="git cherry-pick"
 
 alias b="vim ~/.bash_profile"
 alias reso="source ~/.bash_profile"
 alias vimrc="vim ~/.vimrc"
-alias buildetw7='mvn -Pdevelopment -Detw.properties.directory="/Users/james.kieley/etw-web/src/main/resources/META-INF/properties" -DuseLess=true tomcat7:run'
-alias buildetw7c='mvn -Pdevelopment -Detw.properties.directory="/Users/james.kieley/etw-web/src/main/resources/META-INF/properties" -DuseLess=true clean tomcat7:run'
+alias buildetw='mvn -Pdevelopment -Detw.properties.directory="/Users/james.kieley/etw-web/src/main/resources/META-INF/properties" -DuseLess=true tomcat7:run'
 alias sshconfig='vim ~/.ssh/config'
 alias snippet='cd /Users/james.kieley/Library/Application\ Support/Sublime\ Text\ 3/Packages/User'
+alias pomv='sed -n 7p pom.xml | sed -e "s/<[^>]*>//g" | sed -e "s/-S.*//g" | trim | pbcopy'
 
 SQL_DUMP_LOCATION='/Users/james.kieley/etw-db/fromryan/cloud-internal.sql.gz'
 ETW_PROPERTIES_FILE=/Users/james.kieley/etw-web/src/main/resources/META-INF/properties/etw.properties
 
+GIT_PAGER='' # allows git diff's to wrap to a new terminal line
+export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home' # Java 1.7
+# export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home' # Java 1.8
 
-alias pomv='sed -n 7p pom.xml | sed -e "s/<[^>]*>//g" | sed -e "s/-S.*//g" | trim | pbcopy'
+export CATALINA_HOME='/Applications/apache-tomcat-7.0.61'
+export PS1="\W\[\033[32m\] (\$(parse_git_branch))\[\033[00m\] $ "
+export JREBEL_OPTS="-noverify -javaagent:/Applications/jrebel/jrebel.jar -Xms256m -Xmx2048m -XX:MaxPermSize=384m -Drebel.hibernate_plugin=true -Drebel.spring_plugin=true -Drebel.spring_data_plugin=true -Drebel.spring_webflow_plugin=true -Drebel.tiles2_plugin=true -Drebel.jackson2_plugin=true -Drebel.hibernate_validator_plugin=true -Drebel.aspectj_plugin=true"
+alias buildetwc="mvn -Pdevelopment -Detw.properties.directory=\"/Users/james.kieley/etw-web/src/main/resources/META-INF/properties\" -Dmaven.compile.fork=true -DuseLess=true tomcat7:run -DjvmArgs=\"$JREBEL_OPTS\""
+export MAVEN_OPTS="-Xms256m -Xmx2048m -XX:MaxPermSize=384m"
+
 # This function has been written to pipe something to it, currently does work with straight invocation :/ 
 trim(){
     while read data; do # enable the ability to pipe to this function
@@ -62,13 +71,6 @@ gpwd() {
 	echo -n `pwd` | pbcopy	
 }
 
-export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home' # Java 1.7
-# export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home' # Java 1.8
-
-export CATALINA_HOME='/usr/local/Cellar/tomcat/8.0.15/libexec'
-export PS1="\W\[\033[32m\] (\$(parse_git_branch))\[\033[00m\] $ "
-export MAVEN_OPTS="-Xms256m -Xmx2048m -XX:MaxPermSize=384m"
-
 service(){
     if [ "$1" = "tomcat" ]; then
         if [[ "$2" = "start" ]]; then
@@ -98,6 +100,9 @@ etw(){
             drop_reload $3
         fi
     fi
+    if [[ "$1" = "test" ]]; then
+        cd "/Users/james.kieley/etw-web/src/test/java/com/able/etw/selenium"
+    fi
 }
 
 etw_switch_db(){
@@ -117,6 +122,10 @@ etw_which_db(){
     echo "Current Db:"
     sed -n 11p $ETW_PROPERTIES_FILE
 }
+
+# Expliciently add ssh keys :/ 
+ssh-add ~/.ssh/able >/dev/null 2>&1
+
 # Mac OS X Lion introduced a new, iOS-like context menu when you press and hold a key
 # that enables you to choose a character from a menu of options. If you are on Lion
 # try it by pressing and holding down 'e' in any app that uses the default NSTextField
@@ -149,3 +158,6 @@ defaults write com.sublimetext.3 ApplePressAndHoldEnabled -bool false
 export NVM_DIR="/Users/james.kieley/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
+# Notes
+# stash create pull request:
+# stash pull-request bugfix/ETWAPP-1624-kpi-value-inputs-do-not-line develop @Eric.Higginson @Brandon.Burning
