@@ -3,9 +3,10 @@ filetype off                  " required
 set rtp+=~/.vim/bundle/Vundle.vim
 set rtp+=~/.vim/formatxml.vim
 call vundle#begin()
+     Plugin 'gmarik/Vundle.vim' " So Vundle doesn't delete itself :O
      Plugin 'wincent/command-t'
      Plugin 'vtreeexplorer'
-     Plugin 'scrooloose/syntastic' " check syntax
+     "Plugin 'scrooloose/syntastic' " check syntax
      Plugin 'MarcWeber/vim-addon-mw-utils' " snippets dependency
      Plugin 'tomtom/tlib_vim' " snippets dependency
      Plugin 'garbas/vim-snipmate' " snippets dependency
@@ -14,7 +15,7 @@ call vundle#begin()
      Plugin 'mileszs/ack.vim' " Project wide searching
      Plugin 'vim-scripts/AutoComplPop' " Auto Completion Popup
      Plugin 'altercation/vim-colors-solarized'
-     Plugin 'bling/vim-airline' " bundle of features that can be seen here https://github.com/bling/vim-airline
+     "Plugin 'bling/vim-airline' " bundle of features that can be seen here https://github.com/bling/vim-airline
      Plugin 'scrooloose/nerdtree'
      Plugin 'kchmck/vim-coffee-script'
      Plugin 'groenewege/vim-less' " sytax highlighting for less
@@ -66,3 +67,6 @@ set laststatus=2 " keep the status bar always on
 
 " sytax highlighting
 au BufReadPost *.sublime-snippet set syntax=xml
+
+" Disable swap files
+:set noswapfile
