@@ -13,6 +13,7 @@ alias gb="git branch"
 alias gco="git checkout"
 alias gd="git diff"
 alias gcp="git cherry-pick"
+alias ggb="parse_git_branch | trim | pbcopy"
 
 alias b="vim ~/.bash_profile"
 alias reso="source ~/.bash_profile"
@@ -123,6 +124,30 @@ etw_which_db(){
     sed -n 11p $ETW_PROPERTIES_FILE
 }
 
+hipchat(){
+    while read data; do # enable the ability to pipe to this function
+        hipchat_pr $data
+    done
+}
+
+hipchat_pr(){
+    ROOM_ID=938450 # pull request room 
+    AUTH_TOKEN=mphcMf8ouOUwUgGACIXVlY3ym9UCoDFcsW7sNabD
+    MESSAGE="test @Eric @GetToTheChoppa"
+     
+    curl -H "Content-Type: application/json" \
+         -X POST \
+         -d "{\"color\": \"purple\", \"message_format\": \"text\", \"message\": \"$MESSAGE\" }" \
+         https://api.hipchat.com/v2/room/$ROOM_ID/notification?auth_token=$AUTH_TOKEN
+}
+
+pr(){
+    create_pr $1 $2 | hipchat
+}
+
+create_pr(){
+    stash pull-request $1 $2 @Eric.Higginson @Brandon.Burning
+}
 # Expliciently add ssh keys :/ 
 ssh-add ~/.ssh/able >/dev/null 2>&1
 
