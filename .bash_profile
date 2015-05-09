@@ -27,8 +27,8 @@ SQL_DUMP_LOCATION='/Users/james.kieley/etw-db/fromryan/cloud-internal.sql.gz'
 ETW_PROPERTIES_FILE=/Users/james.kieley/etw-web/src/main/resources/META-INF/properties/etw.properties
 
 GIT_PAGER='' # allows git diff's to wrap to a new terminal line
-export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home' # Java 1.7
-# export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home' # Java 1.8
+# export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home' # Java 1.7
+export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home' # Java 1.8
 
 export CATALINA_HOME='/Applications/apache-tomcat-7.0.61'
 export PS1="\W\[\033[32m\] (\$(parse_git_branch))\[\033[00m\] $ "

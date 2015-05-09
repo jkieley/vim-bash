@@ -69,4 +69,5 @@ set laststatus=2 " keep the status bar always on
 au BufReadPost *.sublime-snippet set syntax=xml
 
 " Disable swap files
-:set noswapfile
+set noswapfile
+
